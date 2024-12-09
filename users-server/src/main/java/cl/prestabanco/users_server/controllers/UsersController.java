@@ -58,4 +58,16 @@ public class UsersController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/applicants-age/{idUser}")
+    public ResponseEntity<Boolean> applicantsAge(@PathVariable Integer idUser) {
+        try {
+            // the user is saved in database
+            Boolean response = usersService.applicantsAge(idUser);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
