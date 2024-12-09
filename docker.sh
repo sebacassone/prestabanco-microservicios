@@ -19,4 +19,3 @@ cd ../prueba-server
 mvn clean install -DskipTests=True
 docker build -t sebacassone/prueba-server .
 docker push sebacassone/prueba-server
-
