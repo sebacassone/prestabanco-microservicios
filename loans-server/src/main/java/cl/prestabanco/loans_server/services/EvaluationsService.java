@@ -4,18 +4,21 @@ import cl.prestabanco.loans_server.entities.EvaluationsEntity;
 import cl.prestabanco.loans_server.repositories.EvaluationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class EvaluationsService {
+
     private final EvaluationsRepository evaluationsRepository;
     private final LoansService loansService;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public EvaluationsService(EvaluationsRepository evaluationsRepository, LoansService loansService) {
+    public EvaluationsService(EvaluationsRepository evaluationsRepository, RestTemplate restTemplate, LoansService loansService) {
         this.evaluationsRepository = evaluationsRepository;
+        this.restTemplate = restTemplate;
         this.loansService = loansService;
     }
-
 
     public EvaluationsEntity findEvaluation(Integer id) {
         return evaluationsRepository.findById(id).orElse(null);
@@ -33,25 +36,25 @@ public class EvaluationsService {
         EvaluationsEntity evaluation = new EvaluationsEntity();
 
         // Find the user and find the incomes of the user
-        Double averageSalary = incomesService.avarageSalary(idUser);
+        String usersUrl = "http://users-server/api/v1/";
+        String debtsServiceUrl = "http://debts-server";
+        Double averageSalary = restTemplate.getForObject(usersUrl + "incomes/average-salary/" + idUser, Double.class);
         if (averageSalary == 0.0) {
             return null;
         }
-        // Calculate the quota income ratio
-        double quotaIncome = quotaLoan/averageSalary * 100;
-        Boolean hasUnpaidDebtsOrMorocities = debtsService.hasUnpaidDebtsOrMorocities(idUser);
 
-        Boolean seniorityEvaluation = jobsService.hasSeniority(idUser);
-        Boolean relationDebtsIncome = debtsService.relationDebtsIncome(idUser, quotaLoan);
+        // Calculate the quota income ratio
+        double quotaIncome = quotaLoan / averageSalary * 100;
+
+        Boolean hasUnpaidDebtsOrMorocities = restTemplate.getForObject(debtsServiceUrl + "/hasUnpaidDebtsOrMorocities/" + idUser, Boolean.class);
+        Boolean seniorityEvaluation = restTemplate.getForObject(usersUrl + "jobs/has-seniority/" + idUser, Boolean.class);
+        Boolean relationDebtsIncome = restTemplate.getForObject(debtsServiceUrl + "/relationDebtsIncome/" + idUser + "?quotaLoan=" + quotaLoan, Boolean.class);
         Boolean maximumFinancingAmount = loansService.maximumFinancingAmount(typeLoan, maximumAmountPercentage);
-        Boolean applicantsAge = usersService.applicantsAge(idUser);
-        // will be set to true because no user stories are requested regarding the savings account.
-        // will not be considered for this project delivery.
+        Boolean applicantsAge = restTemplate.getForObject(usersUrl + "user/applicants-age/" + idUser, Boolean.class);
 
         // Set the evaluation
         evaluation.setQuotaIncomeRatio(quotaIncome <= 35);
         evaluation.setCustomerCredit(!hasUnpaidDebtsOrMorocities);
-
         evaluation.setSeniorityEvaluation(seniorityEvaluation);
         evaluation.setDebtIncomeRatio(relationDebtsIncome);
         evaluation.setMaximumFinancingAmount(maximumFinancingAmount);
