@@ -6,8 +6,8 @@ spring:
       server:
         git:
           default-label: main
-          uri: https://github.com/Laboratorio-de-Informatica-Usach/microservices-patterns
-          username: adminDiinfUsach2024
+          uri: https://github.com/sebacassone/prestabanco-microservicios
+          username: sebacassone
           password: ${GITHUB_TOKEN}
           search-paths: config-data
   application:
