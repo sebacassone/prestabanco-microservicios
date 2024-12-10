@@ -37,8 +37,8 @@ public class EvaluationsService {
 
         // Find the user and find the incomes of the user
         String usersUrl = "http://users-server/api/v1";
-        String debtsServiceUrl = "http://debts-server";
-        Double averageSalary = restTemplate.getForObject(usersUrl + "incomes/average-salary/" + idUser, Double.class);
+        String debtsServiceUrl = "http://debts-server/api/v1/debts";
+        Double averageSalary = restTemplate.getForObject(usersUrl + "/incomes/avarage-salary/" + idUser, Double.class);
         if (averageSalary == 0.0) {
             return null;
         }

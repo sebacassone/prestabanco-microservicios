@@ -55,7 +55,7 @@ public class DebtsService {
         }
         // Get debts from the user
         Float debtTotal = debtsRepository.getSumAmountDebt(idUser);
-        Double avarageSalary = restTemplate.getForObject("http://users-server/api/v1/incomes/average-salary/" + idUser, Double.class);
+        Double avarageSalary = restTemplate.getForObject("http://users-server/api/v1/incomes/avarage-salary/" + idUser, Double.class);
         if (debtTotal == null) {
             debtTotal = 0f;
         }

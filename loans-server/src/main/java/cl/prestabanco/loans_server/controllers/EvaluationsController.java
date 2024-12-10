@@ -10,7 +10,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/evaluations")
-@CrossOrigin("*")
 public class EvaluationsController {
     @Autowired
     private EvaluationsService evaluationsService;
