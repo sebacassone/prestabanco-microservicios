@@ -19,6 +19,8 @@ configurations {
 	}
 }
 
+bootJar { archiveFileName = 'documents-server.jar' }
+
 repositories {
 	mavenCentral()
 }

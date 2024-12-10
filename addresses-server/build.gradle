@@ -19,6 +19,8 @@ configurations {
 	}
 }
 
+bootJar { archiveFileName = 'addresses-server.jar' }
+
 repositories {
 	mavenCentral()
 }

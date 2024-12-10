@@ -19,6 +19,8 @@ configurations {
 	}
 }
 
+bootJar { archiveFileName = 'loans-server.jar' }
+
 repositories {
 	mavenCentral()
 }

@@ -19,6 +19,8 @@ configurations {
 	}
 }
 
+bootJar { archiveFileName = 'debts-server.jar' }
+
 repositories {
 	mavenCentral()
 }
