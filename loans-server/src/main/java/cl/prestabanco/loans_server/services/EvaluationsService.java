@@ -36,7 +36,7 @@ public class EvaluationsService {
         EvaluationsEntity evaluation = new EvaluationsEntity();
 
         // Find the user and find the incomes of the user
-        String usersUrl = "http://users-server/api/v1/";
+        String usersUrl = "http://users-server/api/v1";
         String debtsServiceUrl = "http://debts-server";
         Double averageSalary = restTemplate.getForObject(usersUrl + "incomes/average-salary/" + idUser, Double.class);
         if (averageSalary == 0.0) {
@@ -46,15 +46,15 @@ public class EvaluationsService {
         // Calculate the quota income ratio
         double quotaIncome = quotaLoan / averageSalary * 100;
 
-        Boolean hasUnpaidDebtsOrMorocities = restTemplate.getForObject(debtsServiceUrl + "/hasUnpaidDebtsOrMorocities/" + idUser, Boolean.class);
-        Boolean seniorityEvaluation = restTemplate.getForObject(usersUrl + "jobs/has-seniority/" + idUser, Boolean.class);
-        Boolean relationDebtsIncome = restTemplate.getForObject(debtsServiceUrl + "/relationDebtsIncome/" + idUser + "?quotaLoan=" + quotaLoan, Boolean.class);
+        Boolean hasUnpaidDebtsOrMorocities = restTemplate.getForObject(debtsServiceUrl + "/has-unpaid-debts-morocities/" + idUser, Boolean.class);
+        Boolean seniorityEvaluation = restTemplate.getForObject(usersUrl + "/jobs/has-seniority/" + idUser, Boolean.class);
+        Boolean relationDebtsIncome = restTemplate.getForObject(debtsServiceUrl + "/relation-debts-income/" + idUser + "/" + quotaLoan, Boolean.class);
         Boolean maximumFinancingAmount = loansService.maximumFinancingAmount(typeLoan, maximumAmountPercentage);
-        Boolean applicantsAge = restTemplate.getForObject(usersUrl + "user/applicants-age/" + idUser, Boolean.class);
+        Boolean applicantsAge = restTemplate.getForObject(usersUrl + "/user/applicants-age/" + idUser, Boolean.class);
 
         // Set the evaluation
         evaluation.setQuotaIncomeRatio(quotaIncome <= 35);
-        evaluation.setCustomerCredit(!hasUnpaidDebtsOrMorocities);
+        evaluation.setCustomerCredit(Boolean.FALSE.equals(hasUnpaidDebtsOrMorocities));
         evaluation.setSeniorityEvaluation(seniorityEvaluation);
         evaluation.setDebtIncomeRatio(relationDebtsIncome);
         evaluation.setMaximumFinancingAmount(maximumFinancingAmount);

@@ -65,3 +65,15 @@ spring:
           uri: lb://users-server
           predicates:
               - Path=/api/v1/jobs/**
+        - id: loans-server
+          uri: lb://loans-server
+          predicates:
+              - Path=/api/v1/loans/**
+        - id: loans-evaluations-server
+          uri: lb://loans-server
+          predicates:
+              - Path=/api/v1/evaluations/**
+        - id: loans-requests-server
+          uri: lb://loans-server
+          predicates:
+              - Path=/api/v1/requests/**

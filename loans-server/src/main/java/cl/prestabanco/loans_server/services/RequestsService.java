@@ -2,6 +2,7 @@ package cl.prestabanco.loans_server.services;
 
 import cl.prestabanco.loans_server.entities.RequestsEntity;
 import cl.prestabanco.loans_server.models.RequestsWithTypeLoan;
+import cl.prestabanco.loans_server.repositories.RequestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,11 @@ import java.util.List;
 @Service
 public class RequestsService {
     private final RequestsRepository requestsRepository;
-    private final UsersService usersService;
     private final LoansService loansService;
     private final EvaluationsService evaluationsService;
     @Autowired
-    public RequestsService(RequestsRepository requestsRepository, UsersService usersService, LoansService loansService, EvaluationsService evaluationsService) {
+    public RequestsService(RequestsRepository requestsRepository,LoansService loansService, EvaluationsService evaluationsService) {
         this.requestsRepository = requestsRepository;
-        this.usersService = usersService;
         this.loansService = loansService;
         this.evaluationsService = evaluationsService;
     }
@@ -33,7 +32,7 @@ public class RequestsService {
         RequestsEntity request = new RequestsEntity();
         request.setStateRequest(stateRequest);
         request.setLeanRequest(loansService.findLoan(leanRequest));
-        request.setUserRequest(usersService.findUser(userRequest));
+        request.setIdUser(userRequest);
 
         System.out.println("Request: " + request);
         return requestsRepository.save(request);
@@ -66,7 +65,7 @@ public class RequestsService {
                 default -> new String[0];
             };
             requestWithTypeLoan.setDocumentsRequired(DocumentsRequired);
-            requestWithTypeLoan.setLeanRequest(request.getLeanRequest());
+            requestWithTypeLoan.setLoan(request.getLeanRequest());
             if (request.getIdEvaluation() != null) {
                 requestWithTypeLoan.setEvaluation(evaluationsService.findEvaluation(request.getIdEvaluation()));
             }
@@ -90,8 +89,6 @@ public class RequestsService {
 
     public List<RequestsWithTypeLoan> getRequestByIdUser(Integer idUser) {
         if (idUser <= 0) {
-            return null;
-        } else if (usersService.findUser(idUser) == null) {
             return null;
         }
         // Get all requests from a user and return the type of loan and the documents required
