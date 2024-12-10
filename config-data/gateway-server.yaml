@@ -38,8 +38,8 @@ spring:
             - Path=/prueba/**
           filters:
             - StripPrefix=1
-        - id: address-server
-          uri: lb://address-server
+        - id: addresses-server
+          uri: lb://addresses-server
           predicates:
             - Path=/api/v1/address/**
         - id: debts-server
