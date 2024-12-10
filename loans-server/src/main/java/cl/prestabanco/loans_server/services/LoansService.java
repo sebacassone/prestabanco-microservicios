@@ -92,7 +92,7 @@ public class LoansService {
     }
 
 
-    public LoansEntity getLoanById(Integer idLoan) {
-        return loansRepository.findById(idLoan).orElse(null);
+    public LoansEntity getLoanByIdRequest(Integer idRequest) {
+        return loansRepository.findLoanByIdRequest(idRequest);
     }
 }

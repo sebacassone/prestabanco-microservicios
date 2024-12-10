@@ -36,10 +36,10 @@ public class LoansController {
         }
     }
 
-    @GetMapping("/get-loan/{idLoan}")
-    public ResponseEntity<LoansEntity> getLoanByIdRequest(@PathVariable("idLoan") Integer idLoan) {
+    @GetMapping("/get-loan/{idRequest}")
+    public ResponseEntity<LoansEntity> getLoanByIdRequest(@PathVariable("idRequest") Integer idRequest) {
         try {
-            LoansEntity response = loansService.getLoanById(idLoan);
+            LoansEntity response = loansService.getLoanByIdRequest(idRequest);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
