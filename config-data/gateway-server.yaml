@@ -27,7 +27,6 @@ spring:
               - DELETE
               - OPTIONS
             allowedHeaders: "*"
-            allowCredentials: true
       routes:
         - id: jenkins-service
           uri: http://jenkins-service:9000
