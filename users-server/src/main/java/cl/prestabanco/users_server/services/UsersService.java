@@ -5,13 +5,17 @@ import cl.prestabanco.users_server.repositories.UsersRepository;
 import cl.prestabanco.users_server.utils.functions.functions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UsersService {
     private final UsersRepository usersRepository;
+    private final RestTemplate restTemplate;
+
     @Autowired
-    public UsersService(UsersRepository usersRepository) {
+    public UsersService(UsersRepository usersRepository, RestTemplate restTemplate) {
         this.usersRepository = usersRepository;
+        this.restTemplate = restTemplate;
     }
 
     public UsersEntity saveUser(String rut, String nameUser, String firstLastnameUser, String secondLastnameUser, String emailUser, String phoneUser, String birthdayUser, String statusUser, String passwordUser, String typeUser, Integer idAddress) {
@@ -33,6 +37,8 @@ public class UsersService {
         user.setPasswordUser(passwordUser);
         user.setTypeUser(typeUser);
         user.setIdAddress(idAddress);
+
+        restTemplate.postForObject("http://debts-server/api/v1/debts/user/register-user", user, UsersEntity.class);
 
         return usersRepository.save(user);
 
