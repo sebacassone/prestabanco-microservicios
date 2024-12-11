@@ -4,8 +4,6 @@ cd deployments/
 kubectl delete services --all
 kubectl delete pods --all
 kubectl delete deployments --all
-kubectl delete pvc --all
-kubectl delete pv --all
 
 # Microservices Patterns
 kubectl apply -f config-deployment.yaml
