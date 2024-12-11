@@ -23,9 +23,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: eureka-server-service
+  name: eureka-server-service.default.svc.cluster.localce
   labels:
-    app: eureka-server-service
+    app: eureka-server-service.default.svc.cluster.localce
 spec:
   selector:
     app: eureka-server-deployment
