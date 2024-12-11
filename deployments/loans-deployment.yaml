@@ -5,7 +5,7 @@ metadata:
   labels:
     app: loans-server
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: loans-server
@@ -19,7 +19,7 @@ spec:
           image: sebacassone/loans-server:latest # Cambia a tu imagen publicada en Docker Hub
           env:
             - name: DB_HOST
-              value: "postgres-service"
+              value: "loans-db-service.default.svc.cluster.local:5432"
             - name: DB_NAME
               value: "loans_db" # Cambia este valor según la base de datos requerida
             - name: DB_USERNAME

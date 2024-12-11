@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: debts-server
+  name: documents-server
   labels:
-    app: debts-server
+    app: documents-server
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: debts-server
+      app: documents-server
   template:
     metadata:
       labels:
-        app: debts-server
+        app: documents-server
     spec:
       containers:
-        - name: debts-server
-          image: sebacassone/debts-server:latest # Cambia a tu imagen publicada en Docker Hub
+        - name: documents-server
+          image: sebacassone/documents-server:latest # Cambia a tu imagen publicada en Docker Hub
           env:
             - name: DB_HOST
-              value: "postgres-service"
+              value: "documents-db-service.default.svc.cluster.local:5432"
             - name: DB_NAME
-              value: "debts_db" # Cambia este valor según la base de datos requerida
+              value: "documents_db"
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:

@@ -46,5 +46,5 @@ docker build -t sebacassone/users-server .
 docker push sebacassone/users-server
 
 cd ../../Monolítica/frontend/
-docker build --build-arg VITE_PAYROLL_BACKEND_SERVER=localhost:30502 -t sebacassone/frontend-server .
+docker build --build-arg VITE_PAYROLL_BACKEND_SERVER=192.168.49.2:30000 -t sebacassone/frontend-server .
 docker push sebacassone/frontend-server

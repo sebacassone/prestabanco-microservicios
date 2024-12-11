@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: addresses-db-pv
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/addresses-db-data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: addresses-db-pvc
+  labels:
+    app: postgres
+    tier: database
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: addresses-db-deployment
+  labels:
+    app: addresses-db-deployment
+    tier: database
+spec:
+  selector:
+    matchLabels:
+      app: addresses-db-deployment
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: addresses-db-deployment
+        tier: database
+    spec:
+      containers:
+        - name: addresses-db
+          image: postgres
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD
+            - name: POSTGRES_DB
+              value: "addresses_db"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: addresses-db-data
+      volumes:
+        - name: addresses-db-data
+          persistentVolumeClaim:
+            claimName: addresses-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: addresses-db-service
+  labels:
+    app: addresses-db-service
+    tier: database
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: addresses-db-deployment
+    tier: database
+  type: LoadBalancer

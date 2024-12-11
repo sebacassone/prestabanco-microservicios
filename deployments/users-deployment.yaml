@@ -5,7 +5,7 @@ metadata:
   labels:
     app: users-server
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: users-server
@@ -19,9 +19,9 @@ spec:
           image: sebacassone/users-server:latest # Cambia a tu imagen publicada en Docker Hub
           env:
             - name: DB_HOST
-              value: "postgres-service"
+              value: "users-db-service.default.svc.cluster.local:5432"
             - name: DB_NAME
-              value: "users_db" # Cambia este valor según la base de datos requerida
+              value: "postgres" # Cambia este valor según la base de datos requerida
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:

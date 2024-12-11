@@ -5,7 +5,7 @@ metadata:
   labels:
     app: debts-server
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: debts-server
@@ -19,7 +19,7 @@ spec:
           image: sebacassone/debts-server:latest # Cambia a tu imagen publicada en Docker Hub
           env:
             - name: DB_HOST
-              value: "postgres-service"
+              value: "debts-db-service.default.svc.cluster.local:5432"
             - name: DB_NAME
               value: "debts_db"
             - name: DB_USERNAME

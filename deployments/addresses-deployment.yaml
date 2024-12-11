@@ -5,7 +5,7 @@ metadata:
   labels:
     app: addresses-server
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: addresses-server
@@ -19,7 +19,7 @@ spec:
           image: sebacassone/addresses-server:latest # Cambia a tu imagen publicada en Docker Hub
           env:
             - name: DB_HOST
-              value: "postgres-service"
+              value: "addresses-db-service.default.svc.cluster.local:5432"
             - name: DB_NAME
               value: "addresses_db" # Cambia este valor según la base de datos requerida
             - name: DB_USERNAME

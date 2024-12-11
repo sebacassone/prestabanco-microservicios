@@ -4,6 +4,8 @@ cd deployments/
 kubectl delete services --all
 kubectl delete pods --all
 kubectl delete deployments --all
+kubectl delete pvc --all
+kubectl delete pv --all
 
 # Microservices Patterns
 kubectl apply -f config-deployment.yaml
@@ -15,7 +17,11 @@ kubectl apply -f prueba-deployment.yaml
 
 # Database
 kubectl apply -f postgres-secrets.yaml
-kubectl apply -f postgres-deployment.yaml
+kubectl apply -f addresses-db-deployment.yaml
+kubectl apply -f debts-db-deployment.yaml
+kubectl apply -f documents-db-deployment.yaml
+kubectl apply -f loans-db-deployment.yaml
+kubectl apply -f users-db-deployment.yaml
 
 # Microservices
 kubectl apply -f addresses-deployment.yaml
