@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: gateway-server
-          image: admindiinflab/gateway-server:latest
+          image: sebacassone/gateway-server:latest
           ports:
             - containerPort: 8080
 ---
@@ -34,5 +34,5 @@ spec:
       protocol: TCP
       port: 8080
       targetPort: 8080
-      nodePort: 30502
+      nodePort: 30000
   type: LoadBalancer

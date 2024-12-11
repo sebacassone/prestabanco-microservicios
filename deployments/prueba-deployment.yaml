@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: prueba-server
-          image: admindiinflab/prueba-server:latest
+          image: sebacassone/prueba-server:latest
           ports:
             - containerPort: 8091
           env:

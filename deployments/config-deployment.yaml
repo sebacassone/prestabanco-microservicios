@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: config-server
-          image: admindiinflab/config-server:latest
+          image: sebacassone/config-server:latest
           ports:
             - containerPort: 8888
           env:

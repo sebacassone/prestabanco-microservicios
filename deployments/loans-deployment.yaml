@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loans-server
+  labels:
+    app: loans-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: loans-server
+  template:
+    metadata:
+      labels:
+        app: loans-server
+    spec:
+      containers:
+        - name: loans-server
+          image: sebacassone/loans-server:latest # Cambia a tu imagen publicada en Docker Hub
+          env:
+            - name: DB_HOST
+              value: "postgres-service"
+            - name: DB_NAME
+              value: "loans_db" # Cambia este valor según la base de datos requerida
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER
