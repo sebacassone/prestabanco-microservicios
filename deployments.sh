@@ -11,6 +11,7 @@ kubectl apply -f config-secrets.yaml
 kubectl apply -f eureka-deployment.yaml
 kubectl apply -f gateway-deployment.yaml
 kubectl apply -f jenkins-deployment.yaml
+kubectl apply -f pgadmin-deployment.yaml
 kubectl apply -f prueba-deployment.yaml
 
 # Database
